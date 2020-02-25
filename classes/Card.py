@@ -13,6 +13,8 @@ class Card:
         self.rect = self.image.get_rect(topleft=(0, 0))
         self.blit = (x, y, x2-x, y2-y)
 
+        self.value = 0
+
     def draw(self, screen):
         screen.blit(self.image, self.rect, self.blit)
 

@@ -1,7 +1,12 @@
 import sys
 import pygame
+from tkinter import *
+from tkinter import messagebox
 from classes.Card import Card
 from classes.Deck import Deck
+from classes.Dealer import Dealer
+from classes.Player import Player
+
 
 class Game:
     image = pygame.image.load('img/dealer.png')
@@ -22,6 +27,10 @@ class Game:
     def play(self):
         card = Card(0, 0, 100, 175)
         deck = Deck()
+        dealer = Dealer()
+        player = Player()
+
+        isGame = False
 
         i = 0
         while True:
@@ -33,6 +42,7 @@ class Game:
 
                     if event.key == pygame.K_s:
                         deck.shuffle()
+                        isGame = True
 
                     if event.key == pygame.K_SPACE:
                         if i < 52:
@@ -45,10 +55,18 @@ class Game:
             self.screen.fill((0, 0, 0))
             self.screen.blit(self.image, self.rect)
 
-            deck.deal(self.screen)
-
+            deck.deal(self.screen, dealer, player)
 
             pygame.display.flip()
+
+            if dealer.get_hand >= player.get_hand:
+                msg = "Dealer Wins"
+            else:
+                msg = "player wins"
+            if isGame:
+                Tk().wm_withdraw()  # to hide the main window
+                messagebox.showinfo("Game", msg)
+                isGame = False
 
 
 
